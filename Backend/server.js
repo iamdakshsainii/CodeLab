@@ -2,73 +2,57 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 require("dotenv").config();
-const {connectMongoDB} = require('./connection.js');
+const { connectMongoDB } = require('./connection.js');
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
+
 const app = express();
 const server = http.createServer(app);
 const { initializeSocket } = require("./services/initializeSocket.js");
 
-// More robust CORS configuration
+// Log to confirm .env is loaded correctly
+console.log("CLIENT_URL =>", process.env.CLIENT_URL);
+
+// CORS configuration — this MUST be before routes/middleware
 app.use(cors({
-  origin: ['http://localhost:5174' , process.env.CLIENT_URL], // Match the origins in socket.io
+  origin: [process.env.CLIENT_URL, "http://localhost:5174"],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
-// Initialize socket.io
-const io = initializeSocket(server);
-
-//connect MongoDB
-connectMongoDB(process.env.MONGO_URL).then((result) => {
-    console.log("DataBase Connected SuccessFully!");
-})
-.catch((err) => {
-    console.log("Database Can't Connect Error:", err);
-});
-
-
-
-
+// Enable JSON and URL parsing only once
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
-
-
-//Cokies handling
-const cookieParser = require("cookie-parser");
+// Enable cookie parsing
 app.use(cookieParser());
 
+// Connect MongoDB
+connectMongoDB(process.env.MONGO_URL)
+  .then(() => {
+    console.log("✅ Database Connected Successfully!");
+  })
+  .catch((err) => {
+    console.log("❌ Database Connection Error:", err);
+  });
 
+// Initialize Socket.io
+const io = initializeSocket(server);
 
-//MIDDLEWARES
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-// Serve static files (CSS and JS)
-// this means every request on this server : http://localhost:5000/public/upload is changes into http://localhost:5000/uploadand
-// and  all request on this path is treated staticlly
-app.use(express.static(path.join(__dirname ,'./public')));
-// Serve static files for uploaded images
+// Serve static files
+app.use(express.static(path.join(__dirname, './public')));
 
-//check that user has cookie stored or not
-const {
-  checkForAuthenticationCookie,
-} = require("./middlewares/authentication.js");
-
+// Auth cookie check middleware
+const { checkForAuthenticationCookie } = require("./middlewares/authentication.js");
 app.use(checkForAuthenticationCookie("token"));
 
-//Adding routers
+// Routes
+app.use("/user", require("./routes/userRouter.js"));
+app.use("/room", require("./routes/roomRouter.js"));
 
-const userRouter = require("./routes/userRouter.js");
-app.use("/user" , userRouter);
-
-// Add Room Router
-const roomRouter = require("./routes/roomRouter.js");
-app.use("/room", roomRouter);
-
+// Start server
 const port = process.env.PORT || 5000;
-
 server.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`🚀 Server is running on http://localhost:${port}`);
 });
