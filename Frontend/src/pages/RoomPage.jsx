@@ -104,7 +104,7 @@ const RoomPage = () => {
       socketInitialized.current = true;
       //validtion check for roomId and user
       dispatch(setLoading(true));
-      const url = `https://codelab-sq6v.onrender.com/room/${roomId}`;
+      const url = `https://codelab-wvno.onrender.com/room/${roomId}`;
       axios
         .get(url, {
           params: { user: userData }, // Send userId for backend validation
@@ -131,7 +131,7 @@ const RoomPage = () => {
             showSuccessToast(response.data.message); //show like welcome to the meeting
 
               setHost(response.data.host); // set actual host in this state
-              setIsHost(response.data.host._id === userData._id); // set the current user state that he is host or not 
+              setIsHost(response.data.host._id === userData._id); // set the current user state that he is host or not
               // console.log(`for meeting ${roomId} Host is ${response.data.host.fullname}`);
               // console.log(`${userData.fullname} is ${response.data.host._id === userData._id? "Host" : "Not Host"}`);
 
@@ -153,9 +153,9 @@ const RoomPage = () => {
               transports: ["websocket", "polling"],
               reconnectionAttempts: 5,
             };
-    
+
             socketRef.current = io(`https://codelab-sq6v.onrender.com`, socketOptions);
-           
+
 
             // Handle connection errors
             socketRef.current.on("connect_error", (err) => {
@@ -164,12 +164,12 @@ const RoomPage = () => {
               navigate("/join" , {
                 state: {
                   message: "Failed to connect to the server. Please try again.",
-                },}  
+                },}
               );
             });
             // Join room when socket is connected
-            
-             
+
+
               socketRef.current.emit("join-room", {
                 roomId,
                 user: {
@@ -188,7 +188,7 @@ const RoomPage = () => {
               });
 
             socketRef.current.on("user-joined", (data) => {
-              
+
               // Show notification for user joining
               if (data.user ) {
                 showNotification(
@@ -202,10 +202,10 @@ const RoomPage = () => {
             // Socket event listeners
             socketRef.current.on("code-update", (newCode) => {
               // console.log("New Code Update Received", newCode);
-              
+
               setCode(newCode);
             });
-            
+
             socketRef.current.on("language-update", (newLanguage) => {
               // console.log("New Language  Update Received", newLanguage);
               setLanguage(newLanguage);
@@ -220,7 +220,7 @@ const RoomPage = () => {
               );
             });
 
-          
+
 
             socketRef.current.on("user-left", (data) => {
               setParticipants(data.roomUsers);
@@ -316,10 +316,10 @@ const RoomPage = () => {
       };
     }
   }, [
-    isAuthenticated, 
-    userData, 
-    roomId, 
-    navigate, 
+    isAuthenticated,
+    userData,
+    roomId,
+    navigate,
     showNotification,
     dispatch,
 
@@ -413,10 +413,10 @@ const RoomPage = () => {
   const toggleSidebar = useCallback(
     (content) => {
 
-      
+
       setShowSidebar((prev) => {
 
-        
+
         if (prev && sidebarContent === content) {
           return false;
         } else {
@@ -541,7 +541,7 @@ const RoomPage = () => {
           <CodeEditor
             className="h-full rounded-none"
             parentIsFullScreen={isFullScreenApp}
-            
+
             code={code}
             language={language}
             setCode={setCode}
@@ -568,7 +568,7 @@ const RoomPage = () => {
               host={host}
               setHost={setHost}
               darkMode={darkMode}
-             
+
             />
           )}
         </AnimatePresence>

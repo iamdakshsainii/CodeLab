@@ -18,7 +18,7 @@ const LoginPage = () => {
   const location = useLocation();
   const isAuthenticated = useSelector((state) => state.auth.isAuth);
 
-  
+
   // Add loading state
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -50,7 +50,7 @@ const LoginPage = () => {
     e.preventDefault();
     setIsLoading(true);
     const user = { email, password };
-    const url = `https://codelab-sq6v.onrender.com/user/login`;
+    const url = `https://codelab-wvno.onrender.com/user/login`;
 
     axios
       .post(url, user, { withCredentials: true })
@@ -64,7 +64,7 @@ const LoginPage = () => {
           showSuccessToast(response.data.message);
           console.log("Frontend: ",response.data.user);
           dispatch(login(response.data.user));
-          
+
           // Check if there's a redirect destination
           // using setlocation will auto redirect to the page from where the user was redirected to the login page after logged in
           if (location.state?.redirectFrom) {
@@ -83,9 +83,9 @@ const LoginPage = () => {
 
   // Loading Screen Component
   if (isLoading) {
-    return <LoadingScreen 
-      title="Logging in" 
-      message="Please wait while we Authenticating you..." 
+    return <LoadingScreen
+      title="Logging in"
+      message="Please wait while we Authenticating you..."
     />;
   }
 
@@ -101,11 +101,11 @@ const LoginPage = () => {
         <motion.div
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
-          whileHover={{ 
+          whileHover={{
             scale: 1.01,
-            boxShadow: darkMode 
-              ? "0 0 15px rgba(8, 145, 178, 0.4)" 
-              : "0 0 15px rgba(20, 184, 166, 0.25)" 
+            boxShadow: darkMode
+              ? "0 0 15px rgba(8, 145, 178, 0.4)"
+              : "0 0 15px rgba(20, 184, 166, 0.25)"
           }}
           transition={{ duration: 0.3 }}
           className={`w-full max-w-md p-6 rounded-lg shadow-lg transition-all duration-200 ${
@@ -124,7 +124,7 @@ const LoginPage = () => {
               className="h-32 drop-shadow-lg hover:scale-105 transition-all duration-300"
             />
           </NavLink>
-          
+
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -151,7 +151,7 @@ const LoginPage = () => {
                 required
               />
             </div>
-            
+
             <div className="relative w-full">
               <input
                 type={showPassword ? "text" : "password"}
@@ -165,9 +165,9 @@ const LoginPage = () => {
                 } ${isHovered ? (darkMode ? "border-cyan-400" : "border-teal-400") : ""}`}
                 required
               />
-              <button 
-                type="button" 
-                onClick={() => setShowPassword(!showPassword)} 
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
                 className={`absolute right-3 top-3 ${
                   darkMode ? "text-gray-300 hover:text-white" : "text-gray-500 hover:text-gray-700"
                 }`}
@@ -195,8 +195,8 @@ const LoginPage = () => {
 
             <p className={`text-center ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
               Don't have an account?{" "}
-              <span 
-                onClick={() => navigate("/signup")} 
+              <span
+                onClick={() => navigate("/signup")}
                 className={`cursor-pointer hover:underline ${
                   darkMode ? "text-cyan-400" : "text-cyan-600"
                 }`}

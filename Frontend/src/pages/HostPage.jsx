@@ -6,7 +6,7 @@ import { Copy, Check, X } from "lucide-react";
 import { Header, Footer, LoadingScreen, AccessDeniedScreen } from "../components";
 import axios from "axios";
 import {
-  showWarningToast , 
+  showWarningToast ,
   showSuccessToast ,
   showErrorToast
 } from "../utils/toast";
@@ -52,7 +52,7 @@ const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
    dispatch(setLoading(true));
-    const url = `https://codelab-sq6v.onrender.com/room/create-room`;
+    const url = `https://codelab-wvno.onrender.com/room/create-room`;
     const FormData = {
       meetingName: meetingName,
       hostName: hostName,

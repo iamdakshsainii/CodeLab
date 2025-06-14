@@ -9,7 +9,7 @@ import axios from "axios";
 import { setLoading } from "../redux/authSlice";
 const SignupPage = () => {
   const navigate = useNavigate();
-  
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ const SignupPage = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setProfileImage(file);
-    
+
     // Create preview URL for the selected image
     if (file) {
       const reader = new FileReader();
@@ -41,7 +41,7 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-  
+
     try {
       const formData = new FormData();
       formData.append("fullname", name);
@@ -50,10 +50,10 @@ const SignupPage = () => {
       if (profileImage) {
         formData.append("profileImage", profileImage);
       }
-      const url = `https://codelab-sq6v.onrender.com/user/signup`;
-      // console.log("url in signup is :", import.meta.env.VITE_API_URL); 
-      // const url = 'https://codelab-sq6v.onrender.com/user/signup';
-      
+      const url = `https://codelab-wvno.onrender.com/user/signup`;
+      // console.log("url in signup is :", import.meta.env.VITE_API_URL);
+      // const url = 'https://codelab-wvno.onrender.com/user/signup';
+
       const response = await axios.post(url, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -69,25 +69,25 @@ const SignupPage = () => {
       showSuccessToast(response.data.message);
       navigate("/login");
       }
-  
+
     } catch (err) {
       showErrorToast(err.response?.data?.message || "Something went wrong!");
       setIsLoading(false);
     }
   };
-  
+
   // Use the LoadingScreen component when loading
   if (isLoading) {
-    return <LoadingScreen 
-      title="Creating Account" 
-      message="Please wait while we process your registration..." 
+    return <LoadingScreen
+      title="Creating Account"
+      message="Please wait while we process your registration..."
     />;
   }
 
   return (
     <div className={`flex-grow flex flex-col transition-all ${
-      darkMode 
-        ? "bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 text-white" 
+      darkMode
+        ? "bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 text-white"
         : "bg-gradient-to-br from-white via-blue-50 to-indigo-100 text-gray-800"
     }`}>
       <main className="flex-grow flex flex-col items-center justify-center p-4 sm:p-6">
@@ -114,15 +114,15 @@ const SignupPage = () => {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
               className={`rounded-full w-20 h-20 overflow-hidden shadow-lg ${
-                darkMode 
+                darkMode
                   ? "border-2 border-sky-600 bg-slate-700"
                   : "border-2 border-sky-400 bg-blue-50"
               }`}
             >
               {profilePreview ? (
-                <img 
-                  src={profilePreview} 
-                  alt="Profile Preview" 
+                <img
+                  src={profilePreview}
+                  alt="Profile Preview"
                   className="w-full h-full object-cover"
                 />
               ) : (
@@ -134,7 +134,7 @@ const SignupPage = () => {
               )}
             </motion.div>
           </div>
-          
+
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -153,7 +153,7 @@ const SignupPage = () => {
               value={name}
               onChange={(e) => {
                 setName(e.target.value);
-               
+
               }}
               className={`w-full px-4 py-3 text-lg font-medium border-b-2 focus:outline-none transition-all duration-300 ${
                 darkMode
@@ -168,7 +168,7 @@ const SignupPage = () => {
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
-               
+
               }}
               className={`w-full px-4 py-3 text-lg font-medium border-b-2 focus:outline-none transition-all duration-300 ${
                 darkMode
@@ -177,7 +177,7 @@ const SignupPage = () => {
               } ${isHovered ? (darkMode ? "border-sky-400" : "border-sky-400") : ""}`}
               required
             />
-            
+
             {/* Password field with show/hide toggle */}
             <div className="relative w-full">
               <input
@@ -186,7 +186,7 @@ const SignupPage = () => {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
-                 
+
                 }}
                 className={`w-full px-4 py-3 text-lg font-medium border-b-2 focus:outline-none transition-all duration-300 ${
                   darkMode
@@ -209,7 +209,7 @@ const SignupPage = () => {
                 )}
               </button>
             </div>
-            
+
             <div className="flex flex-col">
               <label className={`text-sm font-medium mb-1 ${
                 darkMode ? "text-gray-300" : "text-gray-600"
@@ -221,8 +221,8 @@ const SignupPage = () => {
                 accept="image/*"
                 onChange={handleFileChange}
                 className={`w-full px-4 py-2 rounded-lg text-sm border transition-all duration-300 ${
-                  darkMode 
-                    ? "bg-transparent border border-slate-600 text-gray-300 focus:border-sky-500" 
+                  darkMode
+                    ? "bg-transparent border border-slate-600 text-gray-300 focus:border-sky-500"
                     : "bg-transparent border border-gray-300 text-gray-700 focus:border-sky-500"
                 } ${isHovered ? (darkMode ? "border-sky-400" : "border-sky-400") : ""}`}
               />

@@ -25,6 +25,7 @@ async function handleSignUp(req, res) {
         message: "⚠ Please enter a valid email address.",
       });
     }
+    
 
     // ✅ Validate Password Length
     if (password.length < 6) {
@@ -45,16 +46,16 @@ async function handleSignUp(req, res) {
     }
 
 
-      // ✅ Get Profile Image Path from Multer as we cofigured multer as an middleware after succefully uploading the file 
+      // ✅ Get Profile Image Path from Multer as we cofigured multer as an middleware after succefully uploading the file
       // const profileImage = req.file ? `/uploads/userProfiles/${req.file.filename}` : `/public/uploads/userProfile/man.png`;
-      // as we server /uploads as static in app.js file 
+      // as we server /uploads as static in app.js file
        // ✅ Check for Uploaded Image, Else Use Default
 
        const profileImagePath = req.file
        ? `/uploads/userProfiles/${req.file.filename}`
-       : `/uploads/userProfiles/man.png`; // Default profile image 
+       : `/uploads/userProfiles/man.png`; // Default profile image
 
-     
+
       console.log("after Upoading middleware the path is :", profileImagePath,"\n","the req.file in signup is : ",req.file);
     // ✅ Create a New User , and stored the image path in database
     const newUser = await User.create({
