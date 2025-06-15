@@ -14,10 +14,10 @@ const ParticipantsList = ({ participants, darkMode }) => {
           <UserPlus size={16} className="mr-1" /> Invite
         </button>
       </div>
-      
+
       <div className="space-y-3">
         {participants.map(participant => (
-          <div 
+          <div
             key={participant.email}
             className={`flex items-center p-2 rounded-lg transition-colors ${
               darkMode ? "hover:bg-slate-800" : "hover:bg-blue-50"
@@ -25,8 +25,8 @@ const ParticipantsList = ({ participants, darkMode }) => {
           >
             <div className="relative mr-3">
               {participant.profileImage ? (
-                <img 
-                  src={`https://codelab-sq6v.onrender.com/${participant.profileImage}`}
+                <img
+                  src={`https://codelab-wvno.onrender.com/${participant.profileImage}`}
                   alt={participant.fullname}
                   className="h-10 w-10 rounded-full object-cover shadow-lg"
                 />
@@ -41,8 +41,8 @@ const ParticipantsList = ({ participants, darkMode }) => {
                 <p className="font-medium mr-2">{participant.fullname}</p>
                 {participant.isHost && (
                   <span className={`text-xs px-1.5 py-0.5 rounded-full ${
-                    darkMode 
-                      ? "bg-yellow-600 text-yellow-100" 
+                    darkMode
+                      ? "bg-yellow-600 text-yellow-100"
                       : "bg-yellow-100 text-yellow-700"
                   }`}>
                     Host
@@ -52,17 +52,17 @@ const ParticipantsList = ({ participants, darkMode }) => {
               <div className="flex items-center space-x-2">
                 {/* Mic Status */}
                 <div className={`text-xs flex items-center ${
-                  participant.isMicOn 
+                  participant.isMicOn
                     ? (darkMode ? "text-green-400" : "text-green-600")
                     : (darkMode ? "text-red-400" : "text-red-600")
                 }`}>
                   {participant.isMicOn ? <Mic size={14} /> : <MicOff size={14} />}
                   <span className="ml-1">{participant.isMicOn ? "Mic On" : "Mic Off"}</span>
                 </div>
-                
+
                 {/* Camera Status */}
                 <div className={`text-xs flex items-center ${
-                  participant.isCameraOn 
+                  participant.isCameraOn
                     ? (darkMode ? "text-green-400" : "text-green-600")
                     : (darkMode ? "text-red-400" : "text-red-600")
                 }`}>
@@ -71,7 +71,7 @@ const ParticipantsList = ({ participants, darkMode }) => {
                 </div>
               </div>
             </div>
-            
+
             {participant.isHost && (
               <div className={`text-yellow-500 ${darkMode ? "opacity-70" : ""}`}>
                 <Settings size={16} />

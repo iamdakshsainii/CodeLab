@@ -24,10 +24,10 @@ const ChatMessages = ({ socket, messages, setMessages, darkMode, roomId }) => {
 
     // Add message to local state
     setMessages((prevMessages) => [...prevMessages, messageData]);
-    
+
     // Emit message to socket
     socket?.emit("update-messages", { roomId, messageData });
-    
+
     // Clear input after sending
     setNewMessage('');
   };
@@ -40,8 +40,8 @@ const ChatMessages = ({ socket, messages, setMessages, darkMode, roomId }) => {
     if (sender.profileImage) {
       return (
         <div className={containerClasses}>
-          <img 
-            src={`https://codelab-sq6v.onrender.com/${sender.profileImage}`}
+          <img
+            src={`https://codelab-wvno.onrender.com/${sender.profileImage}`}
             alt={sender.fullname}
             className={imageClasses}
           />
@@ -70,20 +70,20 @@ const ChatMessages = ({ socket, messages, setMessages, darkMode, roomId }) => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 className={`flex items-center ${
-                  message.sender._id === userData._id 
-                    ? 'justify-end' 
+                  message.sender._id === userData._id
+                    ? 'justify-end'
                     : 'justify-start'
                 }`}
               >
-                {message.sender._id !== userData._id && 
+                {message.sender._id !== userData._id &&
                   renderProfileImage(message.sender, false)
                 }
-                <div 
+                <div
                   className={`p-3 rounded-lg max-w-[85%] shadow-md ${
-                    message.sender._id === userData._id 
-                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white" 
-                      : darkMode 
-                        ? "bg-slate-700 text-gray-200" 
+                    message.sender._id === userData._id
+                      ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+                      : darkMode
+                        ? "bg-slate-700 text-gray-200"
                         : "bg-gray-100 text-gray-800"
                   }`}
                 >
@@ -94,16 +94,16 @@ const ChatMessages = ({ socket, messages, setMessages, darkMode, roomId }) => {
                   )}
                   <p>{message.message}</p>
                   <p className={`text-xs mt-1 text-right ${
-                    message.sender._id === userData._id 
-                      ? "text-blue-100" 
-                      : darkMode 
-                        ? "text-gray-400" 
+                    message.sender._id === userData._id
+                      ? "text-blue-100"
+                      : darkMode
+                        ? "text-gray-400"
                         : "text-gray-500"
                   }`}>
                     {message.time}
                   </p>
                 </div>
-                {message.sender._id === userData._id && 
+                {message.sender._id === userData._id &&
                   renderProfileImage(message.sender, true)
                 }
               </motion.div>
@@ -111,12 +111,12 @@ const ChatMessages = ({ socket, messages, setMessages, darkMode, roomId }) => {
           </AnimatePresence>
         </div>
       </div>
-      
-      <form 
+
+      <form
         onSubmit={handleSendMessage}
         className={`p-3 border-t ${
-          darkMode 
-            ? "border-indigo-900 bg-slate-900" 
+          darkMode
+            ? "border-indigo-900 bg-slate-900"
             : "border-blue-200 bg-white"
         }`}
       >
@@ -127,12 +127,12 @@ const ChatMessages = ({ socket, messages, setMessages, darkMode, roomId }) => {
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Type a message..."
             className={`flex-grow p-2 rounded-l-lg border focus:outline-none focus:ring-2 ${
-              darkMode 
-                ? "bg-slate-800 border-indigo-900 text-white focus:ring-cyan-600" 
+              darkMode
+                ? "bg-slate-800 border-indigo-900 text-white focus:ring-cyan-600"
                 : "bg-blue-50 border-blue-200 text-gray-800 focus:ring-cyan-500"
             }`}
           />
-          <button 
+          <button
             type="submit"
             className="bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white p-2 rounded-r-lg transition-colors"
           >

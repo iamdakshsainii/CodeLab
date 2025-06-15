@@ -24,7 +24,7 @@ const Header = () => {
     <>
       {/* Header Container */}
       <header
-        className={`flex justify-between items-center p-4 shadow-md border-b transition-all 
+        className={`flex justify-between items-center p-4 shadow-md border-b transition-all
           ${
             darkMode
               ? "bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 border-gray-900 text-white"
@@ -48,7 +48,7 @@ const Header = () => {
           <ThemeButton />
           <NavLink
             to="/join"
-            className={`flex items-center px-4 py-2 rounded-lg shadow-md transition-all 
+            className={`flex items-center px-4 py-2 rounded-lg shadow-md transition-all
               ${
                 darkMode
                   ? "bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white"
@@ -59,7 +59,7 @@ const Header = () => {
           </NavLink>
           <NavLink
             to="/host"
-            className={`flex items-center px-4 py-2 rounded-lg shadow-md transition-all 
+            className={`flex items-center px-4 py-2 rounded-lg shadow-md transition-all
               ${
                 darkMode
                   ? "bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white"
@@ -72,7 +72,7 @@ const Header = () => {
           {/* Show profile image if authenticated */}
           {isAuthenticated && (
             <motion.img
-              src={user?.profileImage ? `https://codelab-sq6v.onrender.com/${user.profileImage}` : "/images/man.png"}
+              src={user?.profileImage ? `https://codelab-wvno.onrender.com/${user.profileImage}` : "/images/man.png"}
               alt="Profile"
               className="w-10 h-10 rounded-full cursor-pointer shadow-lg border-2 border-cyan-400 object-cover"
               whileHover={{ scale: 1.1 }}
@@ -115,7 +115,7 @@ const Header = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className={`md:hidden flex flex-col items-center space-y-4 p-4 shadow-md transition-all 
+            className={`md:hidden flex flex-col items-center space-y-4 p-4 shadow-md transition-all
               ${darkMode
               ? "bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 border-gray-900 text-white"
               : "bg-gradient-to-br from-white via-blue-50 to-indigo-100 border-gray-200 text-gray-800" }`}
@@ -147,7 +147,7 @@ const Header = () => {
             {/* Show profile image in mobile menu if authenticated */}
             {isAuthenticated && (
               <motion.img
-                src={user?.profileImage ? `https://codelab-sq6v.onrender.com/${user.profileImage}` : "/images/man.png"}
+                src={user?.profileImage ? `https://codelab-wvno.onrender.com/${user.profileImage}` : "/images/man.png"}
                 alt="Profile"
                 className="w-12 h-12 rounded-full cursor-pointer shadow-lg border-2 border-cyan-400 object-cover"
                 whileHover={{ scale: 1.1 }}
