@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, './public')));
 
 // Auth cookie check middleware
 const { checkForAuthenticationCookie } = require("./middlewares/authentication.js");
-app.use(checkForAuthenticationCookie("token"));
+// app.use(checkForAuthenticationCookie("token"));
 
 // Routes
 app.use("/user", require("./routes/userRouter.js"));
