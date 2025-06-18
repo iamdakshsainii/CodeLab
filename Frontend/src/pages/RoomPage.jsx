@@ -104,7 +104,7 @@ const RoomPage = () => {
       socketInitialized.current = true;
       //validtion check for roomId and user
       dispatch(setLoading(true));
-      const url = `https://https://codelab-wvno.onrender.com/room/${roomId}`;
+      const url = `https://codelab-wvno.onrender.com/room/${roomId}`;
       axios
         .get(url, {
           params: { user: userData }, // Send userId for backend validation

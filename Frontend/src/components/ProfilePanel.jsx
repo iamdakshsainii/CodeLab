@@ -84,7 +84,7 @@ const ProfilePanel = ({ panelOpen, onClose }) => {
             className="h-20 w-20 rounded-full border-2 border-cyan-500 shadow-md"
             whileHover={{ scale: 1.05 }}
           />
-          <h3 className="text-lg font-semibold">{user?.fullname || "John Doe"}</h3>
+          <h3 className="text-lg font-semibold">{user?.fullname || "daksh saini"}</h3>
           <p className="text-sm">{user?.email || "john.doe@example.com"}</p>
         </div>
 

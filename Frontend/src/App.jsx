@@ -15,18 +15,19 @@ import {
   SetupPage,
   RoomPage,
 } from "./pages";
+import About from "./components/aboutPage";
 import { checkAuth } from "./redux/authSlice";
 
 const App = () => {
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     const verifyAuth = async () => {
       dispatch(checkAuth()); // Ensure the async action completes
     };
     verifyAuth();
   }, [dispatch]);
-  
+
   return (
     <Router>
       <Routes>
@@ -37,7 +38,9 @@ const App = () => {
           <Route path="signup" element={<SignupPage />} />
           <Route path="join" element={<JoinPage />} />
           <Route path="host" element={<HostPage />} />
+           <Route path="/about" element={<About />} />
           <Route path="room/setup" element={<SetupPage />} />{" "}
+
           {/* /room/setup */}
         </Route>
 

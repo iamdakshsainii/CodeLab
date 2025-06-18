@@ -4,14 +4,14 @@ const { globalRooms } = require("../controllers/roomManager");
 const initializeSocket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: process.env.CLIENT_URL || "http://localhost:5173", // Explicitly list allowed origin
+      origin: process.env.CLIENT_URL || "http://localhost:5174", // Explicitly list allowed origin
       methods: ["GET", "POST"],
     },
     transports: ["websocket", "polling"], // Explicitly specify transports
   });
   // const io = new Server(server, {
   //   cors: {
-  //     origin: "http://localhost:5173", // Explicitly list allowed origin
+  //     origin: "http://localhost:5174", // Explicitly list allowed origin
   //     methods: ["GET", "POST"],
   //     credentials: true, // Required if using cookies/auth
   //     allowedHeaders: ["Content-Type", "Authorization"],
@@ -192,7 +192,7 @@ const initializeSocket = (server) => {
     });
 
     socket.on("update-messages", ({ roomId, messageData }) => {
-      
+
       // console.log(
       //   `New message in room ${roomId} from ${
       //     currentUser?.fullname || "Unknown"
