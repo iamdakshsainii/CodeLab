@@ -36,6 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Connect to MongoDB
 connectMongoDB(process.env.MONGO_URL)
   .then(() => {
     console.log("Database Connected Successfully!");
@@ -44,13 +45,23 @@ connectMongoDB(process.env.MONGO_URL)
     console.log("Database Connection Error:", err);
   });
 
+// Initialize Socket.io
 const io = initializeSocket(server);
 
+// Serve static files (if any)
 app.use(express.static(path.join(__dirname, "./public")));
 
+// ---------- ADD ROOT ROUTE ----------
+app.get("/", (req, res) => {
+  res.send("CodeLab backend is running!");
+});
+// ------------------------------------
+
+// API routes
 app.use("/user", require("./routes/userRouter.js"));
 app.use("/room", require("./routes/roomRouter.js"));
 
+// Start server
 const port = process.env.PORT || 5000;
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
