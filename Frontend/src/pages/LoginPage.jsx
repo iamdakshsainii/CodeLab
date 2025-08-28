@@ -1,4 +1,4 @@
-import { useState, useEffect ,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header, Footer, LoadingScreen } from "../components";
@@ -18,7 +18,6 @@ const LoginPage = () => {
   const location = useLocation();
   const isAuthenticated = useSelector((state) => state.auth.isAuth);
 
-
   // Add loading state
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -26,16 +25,19 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const darkMode = useSelector((state) => state.theme.darkMode);
   const [isHovered, setIsHovered] = useState(false);
- // Use a ref to track if message has been shown
- const messageShownRef = useRef(false);
-  //using setlocation we have the error msg from where we were trying to loggin and redirect to login page we use this to show the error msg
+
+  // Use a ref to track if message has been shown
+  const messageShownRef = useRef(false);
+
+  // Using location state we have the error msg from where we were trying to login and redirect to login page
   useEffect(() => {
     // Check if there's a redirect message from another page
     if (location.state?.message && !messageShownRef.current) {
       messageShownRef.current = true;
       showWarningToast(location.state.message);
-       // Clear the message so it doesn't show again on re-renders
-    // navigate(location.pathname, { replace: true, state: {} });
+
+      // Clear the message so it doesn't show again on re-renders
+      // navigate(location.pathname, { replace: true, state: {} });
     }
   }, [location]);
 
@@ -45,48 +47,49 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     const user = { email, password };
     const url = `https://codelab-wvno.onrender.com/user/login`;
 
-    axios
-      .post(url, user, { withCredentials: true })
-      .then((response) => {
-        setIsLoading(false);
-        if (response.data.status === "warning") {
-          showWarningToast(response.data.message);
-        } else if (response.data.status === "error") {
-          showErrorToast(response.data.message);
-        } else if (response.data.status === "success") {
-          showSuccessToast(response.data.message);
-          console.log("Frontend: ",response.data.user);
-          dispatch(login(response.data.user));
+    try {
+      const response = await axios.post(url, user, { withCredentials: true });
+      setIsLoading(false);
 
-          // Check if there's a redirect destination
-          // using setlocation will auto redirect to the page from where the user was redirected to the login page after logged in
-          if (location.state?.redirectFrom) {
-            navigate(location.state.redirectFrom);
-          } else {
-            navigate("/");
-          }
+      if (response.data.status === "warning") {
+        showWarningToast(response.data.message);
+      } else if (response.data.status === "error") {
+        showErrorToast(response.data.message);
+      } else if (response.data.status === "success") {
+        showSuccessToast(response.data.message);
+        console.log("Frontend: ", response.data.user);
+        dispatch(login(response.data.user));
+
+        // Check if there's a redirect destination
+        // Using location state will auto redirect to the page from where the user was redirected to the login page after logged in
+        if (location.state?.redirectFrom) {
+          navigate(location.state.redirectFrom);
+        } else {
+          navigate("/");
         }
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        // console.log("loggin catch")
-        showErrorToast(err.response?.data?.message || "Something went wrong!");
-      });
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.error("Login error:", err);
+      showErrorToast(err.response?.data?.message || "Something went wrong!");
+    }
   };
 
   // Loading Screen Component
   if (isLoading) {
-    return <LoadingScreen
-      title="Logging in"
-      message="Please wait while we Authenticating you..."
-    />;
+    return (
+      <LoadingScreen
+        title="Logging in"
+        message="Please wait while we authenticate you..."
+      />
+    );
   }
 
   return (

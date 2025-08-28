@@ -23,7 +23,7 @@ const ProfilePanel = ({ panelOpen, onClose }) => {
   const handleLogout = () => {
     dispatch(setLoading(true));
     axios
-      .post(`https://codelab-wvno.onrender.com/user/logout` , {} , { withCredentials: true }) //axios.post(url, data, config)
+      .post("https://codelab-wvno.onrender.com/user/logout", {}, { withCredentials: true })
       .then((response) => {
         if (!response.data.success) {
           showErrorToast(response.data.message);
@@ -51,7 +51,7 @@ const ProfilePanel = ({ panelOpen, onClose }) => {
   if (!isProfilePanelOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end  bg-opacity-50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex justify-end bg-opacity-50 backdrop-blur-sm">
       <motion.div
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
@@ -63,20 +63,13 @@ const ProfilePanel = ({ panelOpen, onClose }) => {
             : "bg-gradient-to-br from-white via-blue-50 to-indigo-100 text-gray-800"
         }`}
       >
-        {/* Header */}
         <div className={`flex justify-between items-center p-4 border-b ${darkMode ? "border-gray-900" : "border-gray-200"}`}>
           <h2 className="font-semibold text-lg">Profile</h2>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={handleClose}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
-          >
+          <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={handleClose} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
             <X size={22} />
           </motion.button>
         </div>
 
-        {/* Profile Info */}
         <div className={`flex flex-col items-center py-6 space-y-2 border-b ${darkMode ? "border-gray-900" : "border-gray-200"}`}>
           <motion.img
             src={user?.profileImage ? `https://codelab-wvno.onrender.com/${user.profileImage}` : "/images/man.png"}
@@ -88,7 +81,6 @@ const ProfilePanel = ({ panelOpen, onClose }) => {
           <p className="text-sm">{user?.email || "john.doe@example.com"}</p>
         </div>
 
-        {/* Menu Items */}
         <div className="flex flex-col flex-grow p-4 space-y-4">
           <motion.div whileHover={{ x: 8, scale: 1.02 }} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer transition">
             <UserCircle size={22} />
@@ -106,7 +98,6 @@ const ProfilePanel = ({ panelOpen, onClose }) => {
           </motion.div>
         </div>
 
-        {/* Logout Button */}
         <div className={`p-4 border-t ${darkMode ? "border-gray-900" : "border-gray-200"}`}>
           <motion.button
             whileHover={{ scale: 1.05 }}
