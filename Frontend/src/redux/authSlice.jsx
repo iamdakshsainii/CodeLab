@@ -13,13 +13,20 @@ const authSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.isAuth = true;
-      state.userData = action.payload;
+      state.userData = action.payload.user;
       state.isLoading = false;
+      // Persist token to localStorage on login
+      if (action.payload.token) {
+        localStorage.setItem("token", action.payload.token);
+      }
     },
     logout: (state) => {
       state.isAuth = false;
       state.userData = null;
       state.isLoading = false;
+      // Clear token from storage on logout
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
     },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -28,23 +35,24 @@ const authSlice = createSlice({
 });
 
 export const { login, logout, setLoading } = authSlice.actions;
+
 export default authSlice.reducer;
 
-// ✅ Optimized checkAuth thunk - only makes request if there's likely authentication
+// Optimized checkAuth thunk - only makes request if there's likely authentication
 export const checkAuth = () => async (dispatch) => {
   dispatch(setLoading(true));
-
   try {
     // Check for stored token
-    const storedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
-
+    const storedToken = localStorage.getItem("token") || sessionStorage.getItem("token");
     // Check for auth-related cookies (common names)
-    const hasAuthCookie = document.cookie.split(';').some(cookie => {
-      const cookieName = cookie.trim().split('=')[0].toLowerCase();
-      return cookieName.includes('auth') ||
-             cookieName.includes('session') ||
-             cookieName.includes('token') ||
-             cookieName.includes('jwt');
+    const hasAuthCookie = document.cookie.split(";").some((cookie) => {
+      const cookieName = cookie.trim().split("=")[0].toLowerCase();
+      return (
+        cookieName.includes("auth") ||
+        cookieName.includes("session") ||
+        cookieName.includes("token") ||
+        cookieName.includes("jwt")
+      );
     });
 
     // Only make the API call if we have some indication of authentication
@@ -59,34 +67,29 @@ export const checkAuth = () => async (dispatch) => {
       // Add authorization header if we have a token
       ...(storedToken && {
         headers: {
-          'Authorization': `Bearer ${storedToken}`
-        }
-      })
+          Authorization: `Bearer ${storedToken}`,
+        },
+      }),
     };
 
-    const response = await axios.get(
-      `https://codelab-wvno.onrender.com/user/current-user`,
-      config
-    );
+    const response = await axios.get(`https://codelab-wvno.onrender.com/user/current-user`, config);
 
     if (response.data.success) {
-      dispatch(login(response.data.user));
+      dispatch(login({ user: response.data.user, token: storedToken }));
     } else {
       dispatch(logout());
     }
   } catch (error) {
     // Only log non-401 errors since 401 is expected for unauthenticated users
     if (error.response?.status !== 401) {
-      console.error('Auth check failed:', error.message);
+      console.error("Auth check failed:", error.message);
     }
-
     // Clear any stored auth data on 401
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      sessionStorage.removeItem('token');
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("token");
       // Clear any other auth-related data you might have stored
     }
-
     dispatch(logout());
   } finally {
     dispatch(setLoading(false));

@@ -19,13 +19,16 @@ import {
   Share2,
   ChevronDown,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ModernHomepage = () => {
   const [currentFeature, setCurrentFeature] = useState(0);
   const [isVisible, setIsVisible] = useState({});
-
   // Get the dark mode state from the Redux store
   const darkMode = useSelector((state) => state.theme.darkMode);
+  // Get authentication state from Redux store
+  const isAuthenticated = useSelector((state) => state.auth.isAuth);
+  const navigate = useNavigate();
 
   const features = [
     "Real-time collaborative coding",
@@ -34,14 +37,12 @@ const ModernHomepage = () => {
     "Instant code sharing",
     "Advanced debugging tools",
   ];
-
   const stats = [
     { number: "10K+", label: "Active Users" },
     { number: "50+", label: "Languages" },
     { number: "99.9%", label: "Uptime" },
     { number: "24/7", label: "Support" },
   ];
-
   const testimonials = [
     {
       name: "Sarah Chen",
@@ -86,11 +87,9 @@ const ModernHomepage = () => {
     const observer = new IntersectionObserver(handleIntersection, {
       threshold: 0.1,
     });
-
     document.querySelectorAll("[data-animate]").forEach((el) => {
       observer.observe(el);
     });
-
     return () => observer.disconnect();
   }, []);
 
@@ -104,9 +103,7 @@ const ModernHomepage = () => {
           : "bg-gradient-to-br from-white via-blue-50 to-indigo-100"
       }`}
     >
-      
       {/* Hero Section */}
-      {/* Reduced padding-top as this nav is no longer fixed, and a global Header is expected */}
       <section className="pt-8 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -121,7 +118,6 @@ const ModernHomepage = () => {
               <Zap className="w-4 h-4 mr-2" />
               Now with AI-powered code suggestions
             </div>
-
             <h1
               className={`text-5xl md:text-7xl font-bold mb-6 leading-tight transition-colors duration-300
               ${darkMode ? "text-gray-100" : "text-gray-900"}`}
@@ -132,7 +128,6 @@ const ModernHomepage = () => {
                 Build Faster
               </span>
             </h1>
-
             <p
               className={`text-xl max-w-3xl mx-auto mb-8 leading-relaxed transition-colors duration-300
               ${darkMode ? "text-gray-300" : "text-gray-600"}`}
@@ -141,28 +136,34 @@ const ModernHomepage = () => {
               editor. Connect with your team, share ideas instantly, and bring
               your projects to life together.
             </p>
-
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <a
-                href="/signup"
+              <button
+                onClick={() => {
+                  if (isAuthenticated) {
+                    navigate("/host");
+                  } else {
+                    navigate("/login");
+                  }
+                }}
                 className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-lg hover:shadow-xl transition-all transform hover:scale-105 flex items-center"
               >
                 Start Coding Now
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a
-                href="/login"
-                className={`px-8 py-4 border-2 rounded-xl font-semibold text-lg transition-colors duration-300 flex items-center
+              </button>
+              {!isAuthenticated && (
+                <a
+                  href="/login"
+                  className={`px-8 py-4 border-2 rounded-xl font-semibold text-lg transition-colors duration-300 flex items-center
                 ${
                   darkMode
                     ? "border-blue-700 text-blue-400 hover:bg-blue-900"
                     : "border-blue-200 text-blue-700 hover:bg-blue-50"
                 }`}
-              >
-                Login
-              </a>
+                >
+                  Login
+                </a>
+              )}
             </div>
-
             <div
               className={`text-sm transition-colors duration-300
               ${darkMode ? "text-gray-400" : "text-gray-500"}`}
@@ -175,7 +176,6 @@ const ModernHomepage = () => {
               </span>
             </div>
           </div>
-
           {/* Hero Visual */}
           <div className="relative max-w-5xl mx-auto">
             <div
@@ -248,7 +248,6 @@ const ModernHomepage = () => {
                 </div>
               </div>
             </div>
-
             {/* Floating Elements */}
             <div
               className={`absolute -top-4 -right-4 rounded-xl shadow-lg p-4 border transition-colors duration-300
@@ -268,7 +267,6 @@ const ModernHomepage = () => {
                 </span>
               </div>
             </div>
-
             <div
               className={`absolute -bottom-4 -left-4 rounded-xl shadow-lg p-4 border transition-colors duration-300
               ${
@@ -290,7 +288,6 @@ const ModernHomepage = () => {
           </div>
         </div>
       </section>
-
       {/* Stats Section */}
       <section
         className={`py-16 transition-colors duration-300
@@ -317,7 +314,6 @@ const ModernHomepage = () => {
           </div>
         </div>
       </section>
-
       {/* Features Section */}
       <section id="features" className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -340,7 +336,6 @@ const ModernHomepage = () => {
               seamless as working side by side.
             </p>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -417,7 +412,6 @@ const ModernHomepage = () => {
           </div>
         </div>
       </section>
-
       {/* Testimonials Section */}
       <section
         className={`py-16 transition-colors duration-300
@@ -442,7 +436,6 @@ const ModernHomepage = () => {
               Join thousands of teams who have transformed their workflow
             </p>
           </div>
-
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
               <div
@@ -487,7 +480,6 @@ const ModernHomepage = () => {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
@@ -507,25 +499,32 @@ const ModernHomepage = () => {
           >
             Join thousands of developers who are already coding better together.
           </p>
-
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/signup"
+            <button
+              onClick={() => {
+                if (isAuthenticated) {
+                  navigate("/host");
+                } else {
+                  navigate("/login");
+                }
+              }}
               className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-semibold text-lg hover:shadow-xl transition-all transform hover:scale-105"
             >
               Get Started Now
-            </a>
-            <a
-              href="/login"
-              className={`px-8 py-4 border-2 rounded-xl font-semibold text-lg transition-all duration-300
+            </button>
+            {!isAuthenticated && (
+              <a
+                href="/login"
+                className={`px-8 py-4 border-2 rounded-xl font-semibold text-lg transition-all duration-300
               ${
                 darkMode
                   ? "border-blue-700 text-blue-400 hover:bg-blue-900"
                   : "border-blue-200 text-blue-700 hover:bg-blue-50"
               }`}
-            >
-              Already have an account?
-            </a>
+              >
+                Already have an account?
+              </a>
+            )}
           </div>
         </div>
       </section>

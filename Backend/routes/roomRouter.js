@@ -8,11 +8,11 @@ router.get('/:roomId', handleRoomAccess)
 
 function createRoomHandler(req, res) {
     const { meetingName,hostName,roomId,host} = req.body;
-    
+
     if (!meetingName.trim() || !hostName.trim() || !roomId.trim() || !host) {
-          return res.status(400).json({ 
-            status: 'error', 
-            message: 'All fields are required before generating a room ID.' 
+          return res.status(400).json({
+            status: 'error',
+            message: 'All fields are required before generating a room ID.'
           });
         }
         if (createRoom(roomId, host)) {

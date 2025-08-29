@@ -5,11 +5,11 @@ const path = require("path");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const dirPath = path.join(__dirname, "../public/uploads/userProfiles");
-    cb(null, dirPath); // ✅ Save to correct folder
+    cb(null, dirPath); // Save to correct folder
   },
   filename: (req, file, cb) => {
     const uniqueName = file.fieldname + "_" + Date.now() + path.extname(file.originalname);
-    cb(null, uniqueName); // ✅ Example: profileImage_1749949566269.jpg
+    cb(null, uniqueName); //  Example: profileImage_1749949566269.jpg
   },
 });
 

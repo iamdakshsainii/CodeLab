@@ -72,11 +72,13 @@ const ProfilePanel = ({ panelOpen, onClose }) => {
 
         <div className={`flex flex-col items-center py-6 space-y-2 border-b ${darkMode ? "border-gray-900" : "border-gray-200"}`}>
           <motion.img
-            src={user?.profileImage ? `https://codelab-wvno.onrender.com/${user.profileImage}` : "/images/man.png"}
-            alt="User Profile"
-            className="h-20 w-20 rounded-full border-2 border-cyan-500 shadow-md"
-            whileHover={{ scale: 1.05 }}
-          />
+  src={user?.profileImage ? `https://codelab-wvno.onrender.com/${user.profileImage}` : "/images/man.png"}
+  alt="User Profile"
+  className="h-20 w-20 rounded-full border-2 border-cyan-500 shadow-md"
+  whileHover={{ scale: 1.05 }}
+  onError={(e) => (e.target.src = "/images/man.png")} // fallback
+/>
+
           <h3 className="text-lg font-semibold">{user?.fullname || "daksh saini"}</h3>
           <p className="text-sm">{user?.email || "john.doe@example.com"}</p>
         </div>
